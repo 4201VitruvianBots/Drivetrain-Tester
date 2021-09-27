@@ -80,6 +80,8 @@ public class TalonFXDriveTrain extends SubsystemBase {
 
     private final AHRS navX = new AHRS(SerialPort.Port.kMXP);
 
+    private final DoubleSolenoid solenoid = new DoubleSolenoid(0, 0, 1);
+
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
     // // The left-side drive encoder
