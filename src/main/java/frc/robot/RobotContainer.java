@@ -65,7 +65,7 @@ public class RobotContainer {
 
     public void initializeSubsystems() {
         m_driveTrain.setDefaultCommand(new TalonFXSetArcadeDrive(m_driveTrain, () -> leftJoystick.getRawAxis(1),
-                () -> -rightJoystick.getRawAxis(0)));
+                () -> rightJoystick.getRawAxis(0)));
     }
 
     /**
@@ -109,7 +109,7 @@ public class RobotContainer {
     public void teleOpInit() {
         if (RobotBase.isReal()) {
             m_driveTrain.resetEncoderCounts();
-            m_driveTrain.setDriveTrainNeutralMode(0); // Half and half
+            m_driveTrain.setDriveTrainNeutralMode(2); // All in coast; change this maybe
         } else {
             m_driveTrain.resetEncoderCounts();
         }

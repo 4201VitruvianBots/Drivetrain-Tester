@@ -74,13 +74,15 @@ public class TalonFXDriveTrain extends SubsystemBase {
     private final boolean[] brakeMode = { true, false, true, false };
 
     // Set up shifters
-    // DoubleSolenoid driveTrainShifters = new DoubleSolenoid(Constants.pcmOne, Constants.driveTrainShiftersForward,
-    //         Constants.driveTrainShiftersReverse);
+    DoubleSolenoid driveTrainShifters = new DoubleSolenoid(Constants.pcmOne, Constants.driveTrainShiftersForward,
+            Constants.driveTrainShiftersReverse);
     private boolean m_driveShifterState;
 
-    // private final AHRS navX = new AHRS(SerialPort.Port.kMXP);
+    private final AHRS navX = new AHRS(SerialPort.Port.kMXP);
 
-    // private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
+    private final DoubleSolenoid solenoid = new DoubleSolenoid(0, 0, 1);
+
+    private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
 
     // // The left-side drive encoder
     // private final Encoder m_leftEncoder =
@@ -100,7 +102,7 @@ public class TalonFXDriveTrain extends SubsystemBase {
     private final TalonSRX[] simMotors = new TalonSRX[4];
 
     public DifferentialDrivetrainSim m_drivetrainSimulator;
-    // private ADXRS450_GyroSim m_gyroAngleSim;
+    private ADXRS450_GyroSim m_gyroAngleSim;
 
     private DoubleSupplier joystickCorrector = null; // A turning joystick to adjust trajectories during tele-op
 
@@ -144,7 +146,7 @@ public class TalonFXDriveTrain extends SubsystemBase {
 
             // m_leftEncoderSim = new EncoderSim(m_leftEncoder);
             // m_rightEncoderSim = new EncoderSim(m_rightEncoder);
-            // m_gyroAngleSim = new ADXRS450_GyroSim(m_gyro);
+            m_gyroAngleSim = new ADXRS450_GyroSim(m_gyro);
         }
         SmartDashboard.putData("DT Subsystem", this);
     }
@@ -198,25 +200,25 @@ public class TalonFXDriveTrain extends SubsystemBase {
     }
 
     public double getAngle() {
-        return 0;// if (RobotBase.isReal())
-        //     return navX.getAngle();
-        // else
-        //     return m_gyro.getAngle();
+        if (RobotBase.isReal())
+            return navX.getAngle();
+        else
+            return m_gyro.getAngle();
     }
 
     public double getHeading() {
-        return 0;// if (RobotBase.isReal())
-        //     return Math.IEEEremainder(-navX.getAngle(), 360);
-        // else
-        //     return Math.IEEEremainder(m_gyro.getAngle(), 360) * (Constants.DriveConstants.kGyroReversed ? -1.0 : 1.0);
+        if (RobotBase.isReal())
+            return Math.IEEEremainder(-navX.getAngle(), 360);
+        else
+            return Math.IEEEremainder(m_gyro.getAngle(), 360) * (Constants.DriveConstants.kGyroReversed ? -1.0 : 1.0);
     }
 
     public void resetAngle() {
-        // navX.zeroYaw();
+        navX.zeroYaw();
     }
 
     public void setNavXOffset(double angle) { // Angle in degrees
-        // navX.setAngleAdjustment(angle);
+        navX.setAngleAdjustment(angle);
     }
 
     public double getWheelDistanceMeters(int sensorIndex) {
@@ -359,7 +361,7 @@ public class TalonFXDriveTrain extends SubsystemBase {
         // m_leftEncoder.setDistancePerPulse(kEncoderDistancePerPulse);
         // m_rightEncoder.setDistancePerPulse(kEncoderDistancePerPulse);
 
-        // driveTrainShifters.set(state ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+        driveTrainShifters.set(state ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
     }
 
     public DifferentialDriveWheelSpeeds getSpeeds() {
@@ -554,7 +556,7 @@ public class TalonFXDriveTrain extends SubsystemBase {
                 .addQuadraturePosition(distanceMetersToTalonSrxUnits(m_drivetrainSimulator.getRightPositionMeters()));
         simMotors[2].getSimCollection().setQuadratureVelocity(
                 velocityMetersToTalonSrxUnits(m_drivetrainSimulator.getRightVelocityMetersPerSecond()));
-        // m_gyroAngleSim.setAngle(-m_drivetrainSimulator.getHeading().getDegrees());
+        m_gyroAngleSim.setAngle(-m_drivetrainSimulator.getHeading().getDegrees());
 
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putNumber("Robot Angle", getAngle());
