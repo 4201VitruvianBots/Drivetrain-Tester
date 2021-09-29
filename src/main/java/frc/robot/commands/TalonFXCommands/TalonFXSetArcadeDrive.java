@@ -8,7 +8,7 @@
 package frc.robot.commands.TalonFXCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.TalonFXDriveTrain;
+import frc.robot.subsystems.DriveTrain;
 
 import java.util.function.DoubleSupplier;
 
@@ -17,7 +17,7 @@ import java.util.function.DoubleSupplier;
  */
 public class TalonFXSetArcadeDrive extends CommandBase {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-    private final TalonFXDriveTrain m_driveTrain;
+    private final DriveTrain m_driveTrain;
     private final DoubleSupplier m_throttle, m_turn;
 
     /**
@@ -25,7 +25,7 @@ public class TalonFXSetArcadeDrive extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public TalonFXSetArcadeDrive(TalonFXDriveTrain driveTrain, DoubleSupplier throttle, DoubleSupplier turn) {
+    public TalonFXSetArcadeDrive(DriveTrain driveTrain, DoubleSupplier throttle, DoubleSupplier turn) {
         m_driveTrain = driveTrain;
         m_throttle = throttle;
         m_turn = turn;
@@ -45,8 +45,8 @@ public class TalonFXSetArcadeDrive extends CommandBase {
         double joystickY = (Math.abs(m_throttle.getAsDouble()) > 0.05) ? m_throttle.getAsDouble() : 0;
         double joystickX = (Math.abs(m_turn.getAsDouble()) > 0.05) ? m_turn.getAsDouble() : 0;
         double throttle = joystickY;
-        throttle = throttle < 0 ? Math.max(-0.7, throttle) : throttle;
-        double turn = (m_driveTrain.getDriveShifterStatus() ? 0.5 : 0.35) * joystickX;
+        // throttle = throttle < 0 ? Math.max(-0.7, throttle) : throttle;
+        double turn = /*(m_driveTrain.getDriveShifterStatus() ? 0.5 : 0.35) * */joystickX;
 
         m_driveTrain.setMotorArcadeDrive(throttle, turn);
     }

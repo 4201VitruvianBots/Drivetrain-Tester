@@ -8,21 +8,21 @@
 package frc.robot.commands.TalonFXCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.TalonFXDriveTrain;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * An example command that uses an example subsystem.
  */
 public class TalonFXBrakeWhileHeld extends CommandBase {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-    private final TalonFXDriveTrain m_driveTrain;
+    private final DriveTrain m_driveTrain;
 
     /**
      * Creates a new ExampleCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public TalonFXBrakeWhileHeld(TalonFXDriveTrain subsystem) {
+    public TalonFXBrakeWhileHeld(DriveTrain subsystem) {
         m_driveTrain = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
     }
@@ -30,7 +30,7 @@ public class TalonFXBrakeWhileHeld extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_driveTrain.setDriveTrainNeutralMode(1);
+        m_driveTrain.setDriveMotorsState(false);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -41,7 +41,7 @@ public class TalonFXBrakeWhileHeld extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_driveTrain.setDriveTrainNeutralMode(0);
+        m_driveTrain.setDriveMotorsState(true);
     }
 
     // Returns true when the command should end.

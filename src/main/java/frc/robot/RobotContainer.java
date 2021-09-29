@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.TalonFXCommands.TalonFXSetArcadeDrive;
 import frc.robot.constants.Constants;
-import frc.robot.subsystems.TalonFXDriveTrain;
+import frc.robot.subsystems.DriveTrain;
 import frc.vitruvianlib.utils.JoystickWrapper;
 import frc.vitruvianlib.utils.XBoxTrigger;
 
@@ -30,7 +30,7 @@ import frc.vitruvianlib.utils.XBoxTrigger;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final PowerDistributionPanel pdp = new PowerDistributionPanel();
-    private final TalonFXDriveTrain m_driveTrain = new TalonFXDriveTrain(pdp);
+    private final DriveTrain m_driveTrain = new DriveTrain();
 
     static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
     static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
@@ -99,7 +99,7 @@ public class RobotContainer {
 
     public void disabledInit() {
         setInitializationState(true);
-        m_driveTrain.setDriveTrainNeutralMode(2);
+        m_driveTrain.setDriveMotorsState(false);
     }
 
     public void robotPeriodic() {
@@ -108,10 +108,10 @@ public class RobotContainer {
 
     public void teleOpInit() {
         if (RobotBase.isReal()) {
-            m_driveTrain.resetEncoderCounts();
-            m_driveTrain.setDriveTrainNeutralMode(2); // All in coast; change this maybe
-        } else {
-            m_driveTrain.resetEncoderCounts();
+            m_driveTrain.setDriveMotorsState(false);
+        //     m_driveTrain.resetEncoderCounts();
+        // } else {
+        //     m_driveTrain.resetEncoderCounts();
         }
     }
 
@@ -119,7 +119,7 @@ public class RobotContainer {
 
     }
 
-    public TalonFXDriveTrain getRobotDrive() {
+    public DriveTrain getRobotDrive() {
         return m_driveTrain;
     }
 }

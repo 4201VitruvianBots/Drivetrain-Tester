@@ -8,7 +8,7 @@
 package frc.robot.commands.TalonFXCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.TalonFXDriveTrain;
+import frc.robot.subsystems.DriveTrain;
 
 import java.util.function.DoubleSupplier;
 
@@ -17,7 +17,7 @@ import java.util.function.DoubleSupplier;
  */
 public class TaloxFXSetTankDrive extends CommandBase {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-    private final TalonFXDriveTrain m_driveTrain;
+    private final DriveTrain m_driveTrain;
     private final DoubleSupplier m_leftOutput, m_rightOutput;
 
     /**
@@ -25,7 +25,7 @@ public class TaloxFXSetTankDrive extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public TaloxFXSetTankDrive(TalonFXDriveTrain subsystem, DoubleSupplier leftOutput, DoubleSupplier rightOutput) {
+    public TaloxFXSetTankDrive(DriveTrain subsystem, DoubleSupplier leftOutput, DoubleSupplier rightOutput) {
         m_driveTrain = subsystem;
         m_leftOutput = leftOutput;
         m_rightOutput = rightOutput;
