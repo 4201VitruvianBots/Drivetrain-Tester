@@ -11,12 +11,15 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.TalonFXCommands.TalonFXSetArcadeDrive;
+import frc.robot.commands.intake.IntakeIntake;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
 import frc.vitruvianlib.utils.JoystickWrapper;
 import frc.vitruvianlib.utils.XBoxTrigger;
 
@@ -31,6 +34,7 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final PowerDistributionPanel pdp = new PowerDistributionPanel();
     private final DriveTrain m_driveTrain = new DriveTrain();
+    private final Intake m_intake = new Intake();
 
     static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
     static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
@@ -66,6 +70,8 @@ public class RobotContainer {
     public void initializeSubsystems() {
         m_driveTrain.setDefaultCommand(new TalonFXSetArcadeDrive(m_driveTrain, () -> leftJoystick.getRawAxis(1),
                 () -> rightJoystick.getRawAxis(0)));
+        m_intake.setDefaultCommand(new IntakeIntake(m_intake));
+
     }
 
     /**
@@ -89,6 +95,8 @@ public class RobotContainer {
             xBoxPOVButtons[i] = new POVButton(xBoxController, (i * 45));
         xBoxLeftTrigger = new XBoxTrigger(xBoxController, 2);
         xBoxRightTrigger = new XBoxTrigger(xBoxController, 3);
+
+        rightButtons[1].whileHeld(new InstantCommand().andThen(() -> m_intake.setCargoIntakeOutput(leftJoystick.getX())));
     }
 
     /**

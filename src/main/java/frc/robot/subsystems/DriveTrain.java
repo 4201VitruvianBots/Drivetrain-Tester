@@ -35,7 +35,7 @@ public class DriveTrain extends SubsystemBase {
         new TalonSRX(Constants.rightRearDriveMotor),
     };
 
-    DoubleSolenoid driveTrainShifters = new DoubleSolenoid(Constants.pcmOne, Constants.driveTrainShiftersForward, Constants.driveTrainShiftersReverse);
+    DoubleSolenoid driveTrainShifters = new DoubleSolenoid(Constants.PCMOne, Constants.driveTrainShifterForward, Constants.driveTrainShifterReverse);
     public AHRS navX = new AHRS(SerialPort.Port.kMXP);
 
     public static int controlMode = 0;

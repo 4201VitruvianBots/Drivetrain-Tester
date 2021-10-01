@@ -23,127 +23,115 @@ import edu.wpi.first.wpiutil.math.numbers.N2;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    // USB PORTS
-    public static final int leftJoystick = 0;
-    public static final int rightJoystick = 1;
-    public static final int xBoxController = 2;
+    // global variables
+    public static int mechanismPositions;
+    // Constants
 
-    // CAN ADDRESSES
-    public static final int pcmOne = 11;
+    public static int leftJoystick = 0;
+    public static int rightJoystick = 1;
+    public static int xBoxController = 2;
 
-    public static final int leftFrontDriveMotor = 20;
-    public static final int leftRearDriveMotor = 21;
-    public static final int rightFrontDriveMotor = 22;
-    public static final int rightRearDriveMotor = 23;
-    public static final int intakeMotor = 30;
-    public static final int indexerMotor = 35;
-    public static final int kickerMotor = 36;
-    public static final int flywheelMotorA = 40;
-    public static final int flywheelMotorB = 41;
-    public static final int colorWheelMotor = 45;
-    public static final int climbMotorA = 50;
-    public static final int climbMotorB = 51;
-    public static final int skyhookMotor = 55;
-    public static final int turretMotor = 60;
-    public static final int turretEncoder = 61;
+    // Pneumatics
+    public static int pdp = 0;
+    public static int PCMOne = 11;
+        public static int driveTrainShifterForward = 0;
+        public static int driveTrainShifterReverse = 1;
+        public static int hatchIntakeExtendForward = 2;
+        public static int hatchIntakeExtendReverse = 3;
+        public static int hatchIntakeSecureForward = 4;
+        public static int hatchIntakeSecureReverse = 5;
+        public static int climbPistonForward = 6;
+        public static int climbPistonReverse = 7;
 
-    // PWM
-    public static final int ledPort = 0;
+    // Drivetrain
+    public static int leftFrontDriveMotor = 20;
+    public static int leftRearDriveMotor = 21;
+    public static int rightFrontDriveMotor = 22;
+    public static int rightRearDriveMotor = 23;
+    public static int climbDriveMotor = 24;
 
-    // DIO
-    public static final int intakeSensor = 0;
-    public static final int indexerTopSensor = 1;
-    public static final int indexerBottomSensor = 2;
-    public static final int turretHomeSensor = 3;
+    public static int leftElevatorA = 30;
+    public static int leftElevatorB = 31;
+    public static int rightElevatorA = 32;
+    public static int rightElevatorB = 33;
+
+    public static int wristMotor = 40;
+
+    public static int climbMotor = 50;
+
+    public static int cargoIntakeMotor = 60;
+    public static int hatchIntakeMotor = 61;
+
+    // DIOs
+    public static int bannerIR = 0;
+    public static int hatchSensor = 1;
+    public static int elevatorBottom = 2;
+    public static int elevatorTop = 3;
+    public static int elevatorMid = 4;
+    public static int wristBottom = 5;
+    public static int wristTop = 6;
+    public static int robotSwitch = 9;
+
+    public static int ledCh0 = 23;  //LED info channels start from 9 on NavX    Arduino port 12
+    public static int ledCh1 = 22;  //and go down                               Arduino port 11
+    public static int ledCh2 = 21;  //                                          Arduino port 10
+    public static int ledCh3 = 20;  //                                          Arduino port 9
+
+    public static int LED_BLUE = 1;
+    public static int LED_RED = 2;
+    public static int LED_YELLOW = 3;
+    public static int LED_GREEN = 4;
+
+    // PDP Channels
+    public static int pdpChannelDriveTrainLeftForward = 14;
+    public static int pdpChannelDriveTrainLeftReverse = 15;
+    public static int pdpChannelDriveTrainRightForward = 1;
+    public static int pdpChannelDriveTrainRightReverse = 0;
+    public static int pdpChannelElevatorLeft = 13;
+    public static int pdpChannelElevatorRight = 2;
+
+    // Setpoints (Units in inches or degrees)
+    public static double WRIST_RETRACTED_ANGLE = 165;
+    public static double WRIST_RETRACTED_CARGO_ANGLE = 135;
+    public static double WRIST_EXTENDED_ANGLE = 0;
+    public static double WRIST_CARGO_ANGLE = 45;
+    public static double WRIST_CARGO_SHIP_ANGLE = 0;
+    public static double WRIST_CARGO_INTAKE_STATION_ANGLE = 90;
+    public static double WRIST_CARGO_HIGH_ANGLE = 40;
+    public static double WRIST_HATCH_LOW_ANGLE = 45;
+    public static double WRIST_HATCH_ANGLE = 85;
+    public static double ELEVATOR_HOME_POSITION = 0;
+//    public static double ELEVATOR_HATCH_INTAKE_POSITION = 10.5;
+    //public static double ELEVATOR_HATCH_LOW_POSITION = 10;
+    public static double ELEVATOR_HATCH_LOW_POSITION = 7;
+    public static double ELEVATOR_HATCH_MID_POSITION = 37;
+    public static double ELEVATOR_HATCH_HIGH_POSITION = 60;
+    public static double ELEVATOR_HATCH_GROUND_LOW_POSITION = 0;
+    public static double ELEVATOR_HATCH_GROUND_MID_POSITION = 20;
+    public static double ELEVATOR_HATCH_GROUND_HIGH_POSITION = 47;
+    public static double ELEVATOR_CARGO_INTAKE_DEPOT_POSITION = 1; // 2
+    public static double ELEVATOR_CARGO_INTAKE_STATION_POSITION = 10.5;
+    public static double ELEVATOR_CARGO_SHIP_POSITION = 35;
+    public static double ELEVATOR_CARGO_LOW_POSITION = 10;
+    public static double ELEVATOR_CARGO_MID_POSITION = 35;
+    public static double ELEVATOR_CARGO_HIGH_POSITION = 62;
+    public static double ELEVATOR_CLIMB_POSITION = 30;
+
+    //
+    public static double CARGO_INTAKE_SPEED = -0.7;
+    public static double CARGO_OUTTAKE_SPEED = 0.7;
+    public static double CARGO_HOLD_SPEED = -0.2;
+    public static double HATCH_INTAKE_SPEED = -0.8;
+    public static double HATCH_HOLD_SPEED = 0;
+    public static double HATCH_OUTTAKE_SPEED = 0.8;
+    public static double HATCH_GROUND_INTAKE_SPEED = -0.8;
+    public static double HATCH_GROUND_HOLD_SPEED = -0.1;
+    public static double HATCH_GROUND_OUTTAKE_SPEED = 1;
 
 
-    //Solenoid addresses
-    public static final int driveTrainShiftersForward = 0;
-    public static final int driveTrainShiftersReverse = 1;
-    public static final int intakePistonForward = 2; // 2
-    public static final int intakePistonReverse = 3; // 3
-    public static final int climbPistonForward = 4;
-    public static final int climbPistonReverse = 5;
-
-    // Shoot on the Move
-    public static final double g = 9.81; // Absolute value, in meters per second squared
-    public static final double airResistanceCoefficient = 1.05; // Constant that shoot velocity is multiplied by to account for air resistance
-
-    // Target measurements
-    public static final double ballRadius = Units.inchesToMeters(3.5);
-    public static final double ballTolerance = Units.inchesToMeters(1);
-    public static final double outerTargetHeight = Units.inchesToMeters(30);
-    public static final double targetOffset = Units.inchesToMeters(29.25);
-
-    // Use actual values for these
-    public static final double verticalTargetDistance = Units.inchesToMeters(98.25 - 38); // Distance between shooter and target heights from ground
-    public static final double verticalShooterAngle = Math.PI / 3; // Angle ball is shot from shooter relative to the ground 
-    public static final double tanSquaredVerticalShooterAngle = Math.pow(Math.tan(verticalShooterAngle), 2);
-    public static final double sinOfVerticalShootAngle = Math.sin(verticalShooterAngle);
-    public static final double cosOfVerticalShootAngle = Math.cos(verticalShooterAngle);
-    public static final double targetXPosition = 0;
-    public static final double targetYPosition = Units.inchesToMeters(629.25);
-
-    public static final double turretAcceleration = .75; // radians per second
-    public static final double shooterAcceleration = 1000; // RPM per second
-
-    public static final double navXToShooterDistance = Units.inchesToMeters(1.4); // Meters
-    public static final double navXToShooterAngle = 0; // Radians; angle offset between navX and shooter
-    public static final double flywheelDiameter = 0.1; // Meters
-
-    public static final double maxShooterRPM = 3500; // Highest RPM that shooter can launch balls at without breaking
-
-    public static final class DriveConstants {
-        public static final int[] kLeftEncoderPorts = new int[]{10, 11};
-        public static final int[] kRightEncoderPorts = new int[]{12, 13};
-        public static final boolean kLeftEncoderReversed = false;
-        public static final boolean kRightEncoderReversed = true;
-
-        public static final double kTrackwidthMeters = Units.inchesToMeters(21.5);
-        public static final DifferentialDriveKinematics kDriveKinematics =
-                new DifferentialDriveKinematics(kTrackwidthMeters);
-
-        // Example values only -- use what's on your physical robot!
-        public static final DCMotor kDriveGearbox = DCMotor.getFalcon500(2);
-        public static final double kDriveGearingLow = 7.49;
-        public static final double kDriveGearingHigh = 14.14;
-
-
-        public static final int kMagEncoderCPR = 4096;
-        public static final int kFalconEncoderCPR = 2048;
-        public static final double kWheelDiameterMeters = Units.feetToMeters(0.5);
-        public static final double kEncoderDistancePerPulseLow =
-                // Encoders are not on the wheel shaft for Falcons, so need to multiply by gear ratio
-                (kWheelDiameterMeters * Math.PI) / (double) kFalconEncoderCPR * kDriveGearingLow;
-        public static final double kEncoderDistancePerPulseHigh =
-                // Encoders are not on the wheel shaft for Falcons, so need to multiply by gear ratio
-                (kWheelDiameterMeters * Math.PI) / (double) kFalconEncoderCPR * kDriveGearingLow;
-        public static final double kEncoderDistancePerPulseSim =
-                // Assumes the encoders are directly mounted on the wheel shafts
-                (kWheelDiameterMeters * Math.PI) / (double) kMagEncoderCPR * kDriveGearingHigh;
-
-        public static final boolean kGyroReversed = true;
-
-        public static final boolean inSlowGear = true; // True = 1 : 14.14, False = 1 : 7.49
-
-        // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-        // These characterization values MUST be determined either experimentally or theoretically
-        // for *your* robot's drive.
-        // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
-        // values for your robot.
-        public static final double ksVolts = 0.675;//inSlowGear ? 0.683 : 0.81;
-        public static final double kvVoltSecondsPerMeter = 3.21;//inSlowGear ? 3.19 : 1.74;
-        public static final double kaVoltSecondsSquaredPerMeter = 0.256;//inSlowGear ? 0.227 : 0.301;
-
-        // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-        // These characterization values MUST be determined either experimentally or theoretically
-        // for *your* robot's drive.
-        // These two values are "angular" kV and kA
-        public static final double kvVoltSecondsPerRadian = 3.34;//inSlowGear ? 3.41 : 2.08; // originally 1.5
-        public static final double kaVoltSecondsSquaredPerRadian = 0.19;//inSlowGear ? 0.111 : -0.0132; // originally 0.3
-
-        public static final LinearSystem<N2, N2, N2> kDrivetrainPlant =
-                LinearSystemId.identifyDrivetrainSystem(kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter,
-                        kvVoltSecondsPerRadian, kaVoltSecondsSquaredPerRadian);
-    }
+    // Pathfinder (Units in feet)
+    public static double wheel_diameter = 0.5104167;
+    public static double wheelbase = 2.20833;
+    public static double max_vel_high = 0.5104167;
+    public static double max_vel_low = 1.6;
 }
