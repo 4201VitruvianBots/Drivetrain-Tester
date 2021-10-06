@@ -65,7 +65,7 @@ public class RobotContainer {
 
     public void initializeSubsystems() {
         m_driveTrain.setDefaultCommand(new TalonFXSetArcadeDrive(m_driveTrain, () -> leftJoystick.getRawAxis(1),
-                () -> rightJoystick.getRawAxis(0)));
+                () -> -rightJoystick.getRawAxis(0)));
     }
 
     /**

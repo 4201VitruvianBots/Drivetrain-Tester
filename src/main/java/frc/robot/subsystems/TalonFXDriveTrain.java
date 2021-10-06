@@ -176,10 +176,10 @@ public class TalonFXDriveTrain extends SubsystemBase {
             }
         }
 
-        motors[0].setInverted(true);
-        motors[1].setInverted(true);
-        motors[2].setInverted(false);
-        motors[3].setInverted(false);
+        motors[0].setInverted(false);
+        motors[1].setInverted(false);
+        motors[2].setInverted(true);
+        motors[3].setInverted(true);
 
         motors[0].setSensorPhase(false);
         motors[2].setSensorPhase(false);
