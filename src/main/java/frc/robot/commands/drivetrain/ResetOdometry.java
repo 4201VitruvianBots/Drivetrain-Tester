@@ -5,30 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.TalonFXCommands;
+package frc.robot.commands.drivetrain;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.TalonFXDriveTrain;
-
-import java.util.function.DoubleSupplier;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class TalonFXSetArcadeDrive extends CommandBase {
-    @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-    private final TalonFXDriveTrain m_driveTrain;
-    private final DoubleSupplier m_throttle, m_turn;
+public class ResetOdometry extends CommandBase {
+    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+    private final DriveTrain m_driveTrain;
 
     /**
      * Creates a new ExampleCommand.
      *
-     * @param subsystem The subsystem used by this command.
+     * @param driveTrain The subsystem used by this command.
      */
-    public TalonFXSetArcadeDrive(TalonFXDriveTrain driveTrain, DoubleSupplier throttle, DoubleSupplier turn) {
+    public ResetOdometry(DriveTrain driveTrain) {
         m_driveTrain = driveTrain;
-        m_throttle = throttle;
-        m_turn = turn;
 
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(driveTrain);
@@ -37,18 +34,16 @@ public class TalonFXSetArcadeDrive extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        m_driveTrain.resetOdometry(new Pose2d(), new Rotation2d());
+        m_driveTrain.resetEncoderCounts();
+        m_driveTrain.resetAngle();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double joystickY = (Math.abs(m_throttle.getAsDouble()) > 0.05) ? m_throttle.getAsDouble() : 0;
-        double joystickX = (Math.abs(m_turn.getAsDouble()) > 0.05) ? m_turn.getAsDouble() : 0;
-        double throttle = joystickY;
-        throttle = throttle < 0 ? Math.max(-0.7, throttle) : throttle;
-        double turn = (m_driveTrain.getDriveShifterStatus() ? 0.5 : 0.35) * joystickX;
 
-        m_driveTrain.setMotorArcadeDrive(throttle, turn);
+
     }
 
     // Called once the command ends or is interrupted.
@@ -59,6 +54,6 @@ public class TalonFXSetArcadeDrive extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }

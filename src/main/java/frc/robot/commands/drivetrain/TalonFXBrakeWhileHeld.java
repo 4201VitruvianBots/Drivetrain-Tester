@@ -5,24 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.TalonFXCommands;
+package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.TalonFXDriveTrain;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * An example command that uses an example subsystem.
  */
 public class TalonFXBrakeWhileHeld extends CommandBase {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-    private final TalonFXDriveTrain m_driveTrain;
+    private final DriveTrain m_driveTrain;
 
     /**
      * Creates a new ExampleCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public TalonFXBrakeWhileHeld(TalonFXDriveTrain subsystem) {
+    public TalonFXBrakeWhileHeld(DriveTrain subsystem) {
         m_driveTrain = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
     }

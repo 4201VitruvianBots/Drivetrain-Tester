@@ -42,7 +42,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Constants.DriveConstants;
 
-public class TalonFXDriveTrain extends SubsystemBase {
+public class DriveTrain extends SubsystemBase {
     private final double gearRatioHigh = 1.0 / 14.14;
     private final double gearRatioLow = 1.0 / 7.49;
     private final double wheelDiameter = 0.5;
@@ -106,7 +106,7 @@ public class TalonFXDriveTrain extends SubsystemBase {
 
     private DoubleSupplier joystickCorrector = null; // A turning joystick to adjust trajectories during tele-op
 
-    public TalonFXDriveTrain(PowerDistributionPanel pdp) {
+    public DriveTrain(PowerDistributionPanel pdp) {
         // Set up DriveTrain motors
         configureCtreMotors(driveMotors);
 

@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.commands.TalonFXCommands.TalonFXSetArcadeDrive;
+import frc.robot.commands.autonomous.routines.AutoNavBarrel;
+import frc.robot.commands.drivetrain.TalonFXSetArcadeDrive;
 import frc.robot.constants.Constants;
-import frc.robot.subsystems.TalonFXDriveTrain;
+import frc.robot.subsystems.DriveTrain;
 import frc.vitruvianlib.utils.JoystickWrapper;
 import frc.vitruvianlib.utils.XBoxTrigger;
 
@@ -30,7 +32,7 @@ import frc.vitruvianlib.utils.XBoxTrigger;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final PowerDistributionPanel pdp = new PowerDistributionPanel();
-    private final TalonFXDriveTrain m_driveTrain = new TalonFXDriveTrain(pdp);
+    private final DriveTrain m_driveTrain = new DriveTrain(pdp);
 
     static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
     static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
@@ -119,7 +121,14 @@ public class RobotContainer {
 
     }
 
-    public TalonFXDriveTrain getRobotDrive() {
+    public Command getAutonomousCommand() {
+        return new AutoNavBarrel(m_driveTrain);
+    }
+
+    public void autonomousPeriodic() {
+    }
+
+    public DriveTrain getRobotDrive() {
         return m_driveTrain;
     }
 }

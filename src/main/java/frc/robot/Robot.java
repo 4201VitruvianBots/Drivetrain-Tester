@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+    private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
     // private BadLogger badLog;
 
@@ -85,6 +87,11 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         m_latch = true;
         m_autoStartTime = Timer.getFPGATimestamp();
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+        if(m_autonomousCommand != null) {
+            m_autonomousCommand.schedule();
+        }
 
     }
 
@@ -93,6 +100,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
+        m_robotContainer.autonomousPeriodic();
         if (m_robotContainer.getRobotDrive().getCurrentCommand() == m_robotContainer.getRobotDrive().getDefaultCommand()
                 && m_latch) {
             SmartDashboard.putNumber("Auto Time", Timer.getFPGATimestamp() - m_autoStartTime);
