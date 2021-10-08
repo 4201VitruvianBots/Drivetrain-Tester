@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.TalonFXCommands.TalonFXSetArcadeDrive;
 import frc.robot.constants.Constants;
-import frc.robot.subsystems.TalonFXDriveTrain;
+import frc.robot.subsystems.Climber;
 import frc.vitruvianlib.utils.JoystickWrapper;
 import frc.vitruvianlib.utils.XBoxTrigger;
 
@@ -29,8 +29,7 @@ import frc.vitruvianlib.utils.XBoxTrigger;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    private final PowerDistributionPanel pdp = new PowerDistributionPanel();
-    private final TalonFXDriveTrain m_driveTrain = new TalonFXDriveTrain(pdp);
+    private final Climber m_climber = new Climber();
 
     static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
     static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
@@ -64,8 +63,6 @@ public class RobotContainer {
     }
 
     public void initializeSubsystems() {
-        m_driveTrain.setDefaultCommand(new TalonFXSetArcadeDrive(m_driveTrain, () -> leftJoystick.getRawAxis(1),
-                () -> rightJoystick.getRawAxis(0)));
     }
 
     /**
@@ -99,7 +96,7 @@ public class RobotContainer {
 
     public void disabledInit() {
         setInitializationState(true);
-        m_driveTrain.setDriveTrainNeutralMode(2);
+        m_climber.setClimberOutput(0);
     }
 
     public void robotPeriodic() {
@@ -107,19 +104,19 @@ public class RobotContainer {
     }
 
     public void teleOpInit() {
-        if (RobotBase.isReal()) {
-            m_driveTrain.resetEncoderCounts();
-            m_driveTrain.setDriveTrainNeutralMode(2); // All in coast; change this maybe
-        } else {
-            m_driveTrain.resetEncoderCounts();
-        }
+        // if (RobotBase.isReal()) {
+        //     m_driveTrain.resetEncoderCounts();
+        //     m_driveTrain.setDriveTrainNeutralMode(2); // All in coast; change this maybe
+        // } else {
+        //     m_driveTrain.resetEncoderCounts();
+        // }
     }
 
     public void teleOpPeriodic() {
 
     }
 
-    public TalonFXDriveTrain getRobotDrive() {
-        return m_driveTrain;
+    public Climber getClimber() {
+        return m_climber;
     }
 }

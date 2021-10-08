@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
-        if (m_robotContainer.getRobotDrive().getCurrentCommand() == m_robotContainer.getRobotDrive().getDefaultCommand()
+        if (m_robotContainer.getClimber().getCurrentCommand() == m_robotContainer.getClimber().getDefaultCommand()
                 && m_latch) {
             SmartDashboard.putNumber("Auto Time", Timer.getFPGATimestamp() - m_autoStartTime);
             m_latch = false;
