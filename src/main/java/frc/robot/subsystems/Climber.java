@@ -25,7 +25,7 @@ public class Climber extends SubsystemBase {
 
     private final double gearRatio = 1.0 / 18.0;
     // Climber motors and solenoid
-    private final TalonFX climbMotor = new TalonFX(Constants.climbMotorA);
+    private final TalonFX climbMotor = new TalonFX(Constants.climbMotor);
     public double pulleyDiameter = 2.0; // inches
     DoubleSolenoid climbPiston = new DoubleSolenoid(Constants.pcmOne, Constants.climbPistonForward, Constants.climbPistonReverse);
 
