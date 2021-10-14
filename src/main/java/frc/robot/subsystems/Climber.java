@@ -27,7 +27,9 @@ public class Climber extends SubsystemBase {
     // Climber motors and solenoid
     private final TalonFX climbMotor = new TalonFX(Constants.climbMotor);
     public double pulleyDiameter = 2.0; // inches
-    DoubleSolenoid climbPiston = new DoubleSolenoid(Constants.pcmOne, Constants.climbPistonForward, Constants.climbPistonReverse);
+    DoubleSolenoid ratchetPiston = new DoubleSolenoid(Constants.pcmOne, Constants.climbRatchetPistonForward, Constants.climbRatchetPistonReverse);
+    DoubleSolenoid leftClimbPiston = new DoubleSolenoid(Constants.pcmOne, Constants.leftClimbPistonForward, Constants.leftClimbPistonReverse);
+    DoubleSolenoid rightClimbPiston = new DoubleSolenoid(Constants.pcmOne, Constants.rightClimbPistonForward, Constants.rightClimbPistonReverse);
 
     private boolean climbState;
 
@@ -40,11 +42,19 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean getClimbPistonExtendStatus() {
-        return climbPiston.get() == DoubleSolenoid.Value.kForward;
+        return true;//climbPiston.get() == DoubleSolenoid.Value.kForward;
     }
 
-    public void setClimbPiston(boolean state) {
-        climbPiston.set(state ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+    public void setRatchetPiston(boolean state) {
+        ratchetPiston.set(state ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+    }
+
+    public void setLeftPiston(boolean state) {
+        leftClimbPiston.set(state ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
+    }
+
+    public void setRightPiston(boolean state) {
+        rightClimbPiston.set(state ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
     }
 
     public boolean getClimbState() {

@@ -57,12 +57,12 @@ public final class Constants {
 
 
     //Solenoid addresses
-    public static final int driveTrainShiftersForward = 0;
-    public static final int driveTrainShiftersReverse = 1;
-    public static final int intakePistonForward = 2; // 2
-    public static final int intakePistonReverse = 3; // 3
-    public static final int climbPistonForward = 4;
-    public static final int climbPistonReverse = 5;
+    public static final int climbRatchetPistonForward = 1;
+    public static final int climbRatchetPistonReverse = 2;
+    public static final int leftClimbPistonForward = 3;
+    public static final int leftClimbPistonReverse = 0;
+    public static final int rightClimbPistonForward = 4;
+    public static final int rightClimbPistonReverse = 5; 
 
     // Shoot on the Move
     public static final double g = 9.81; // Absolute value, in meters per second squared

@@ -11,11 +11,17 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.EnableClimbMode;
+import frc.robot.commands.ExtendClimber;
+import frc.robot.commands.RetractClimber;
 import frc.robot.commands.SetClimberOutput;
+import frc.robot.commands.SetLeftPiston;
+import frc.robot.commands.SetRatchetPiston;
+import frc.robot.commands.SetRightPiston;
 import frc.robot.constants.Constants;
 import frc.robot.subsystems.Climber;
 import frc.vitruvianlib.utils.JoystickWrapper;
@@ -89,7 +95,10 @@ public class RobotContainer {
         xBoxLeftTrigger = new XBoxTrigger(xBoxController, 2);
         xBoxRightTrigger = new XBoxTrigger(xBoxController, 3);
 
-        xBoxButtons[9].whenPressed(new EnableClimbMode(m_climber));
+        xBoxButtons[4].whenPressed(new ExtendClimber(m_climber));
+        xBoxButtons[5].whenPressed(new RetractClimber(m_climber));
+        xBoxPOVButtons[0].whenPressed(new SetRatchetPiston(m_climber, true));
+        xBoxPOVButtons[1].whenPressed(new SetRatchetPiston(m_climber, false));
     }
 
     /**

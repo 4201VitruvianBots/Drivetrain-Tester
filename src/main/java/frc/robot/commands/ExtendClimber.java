@@ -33,34 +33,23 @@ public class ExtendClimber extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //engage the piston
-    m_climber.setClimbPiston(true);
-    //wait a tiny bit of time before the next step
-    timestamp = Timer.getFPGATimestamp();
+    m_climber.setLeftPiston(true);
+    m_climber.setRightPiston(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if((Timer.getFPGATimestamp() - timestamp) < 0.2) {
-      //rotate the motor counter clockwise to nick the ratchet
-      m_climber.setClimberOutput(-0.25);
-    } else
-      m_climber.setClimberOutput(0);
-//    SmartDashboardTab.putString("Climber", "EnableClimbMode", "Executing");
-//    SmartDashboardTab.putNumber("Climber", "Time Delta", (Timer.getFPGATimestamp() - timestamp));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //stop the motor
-    m_climber.setClimberOutput(0.0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Timer.getFPGATimestamp() - timestamp) > 0.2;
+    return true;//
   }
 }
