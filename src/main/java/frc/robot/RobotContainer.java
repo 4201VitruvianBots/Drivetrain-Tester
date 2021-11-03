@@ -8,15 +8,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.commands.TalonFXCommands.TalonFXSetArcadeDrive;
 import frc.robot.constants.Constants;
-import frc.robot.subsystems.TalonFXDriveTrain;
 import frc.vitruvianlib.utils.JoystickWrapper;
 import frc.vitruvianlib.utils.XBoxTrigger;
 
@@ -29,22 +25,17 @@ import frc.vitruvianlib.utils.XBoxTrigger;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    private final PowerDistributionPanel pdp = new PowerDistributionPanel();
-    private final TalonFXDriveTrain m_driveTrain = new TalonFXDriveTrain(pdp);
-
-    static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
-    static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
-    static JoystickWrapper xBoxController = new JoystickWrapper(Constants.xBoxController);
-    public Button[] leftButtons = new Button[2];
-    public Button[] rightButtons = new Button[2];
-    public Button[] xBoxButtons = new Button[10];
-    public Button[] xBoxPOVButtons = new Button[8];
-    public Button xBoxLeftTrigger, xBoxRightTrigger;
-
+    static final JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
+    static final JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
+    static final JoystickWrapper xBoxController = new JoystickWrapper(Constants.xBoxController);
     static JoystickWrapper testController = new JoystickWrapper(4);
-    public Button[] testButtons = new Button[10];
-
     private static boolean init = false;
+    public final Button[] leftButtons = new Button[2];
+    public final Button[] rightButtons = new Button[2];
+    public final Button[] xBoxButtons = new Button[10];
+    public final Button[] xBoxPOVButtons = new Button[8];
+    public Button xBoxLeftTrigger, xBoxRightTrigger;
+    public Button[] testButtons = new Button[10];
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -64,8 +55,6 @@ public class RobotContainer {
     }
 
     public void initializeSubsystems() {
-        m_driveTrain.setDefaultCommand(new TalonFXSetArcadeDrive(m_driveTrain, () -> leftJoystick.getRawAxis(1),
-                () -> rightJoystick.getRawAxis(0)));
     }
 
     /**
@@ -99,7 +88,6 @@ public class RobotContainer {
 
     public void disabledInit() {
         setInitializationState(true);
-        m_driveTrain.setDriveTrainNeutralMode(2);
     }
 
     public void robotPeriodic() {
@@ -107,19 +95,10 @@ public class RobotContainer {
     }
 
     public void teleOpInit() {
-        if (RobotBase.isReal()) {
-            m_driveTrain.resetEncoderCounts();
-            m_driveTrain.setDriveTrainNeutralMode(2); // All in coast; change this maybe
-        } else {
-            m_driveTrain.resetEncoderCounts();
-        }
     }
 
     public void teleOpPeriodic() {
 
     }
 
-    public TalonFXDriveTrain getRobotDrive() {
-        return m_driveTrain;
-    }
 }

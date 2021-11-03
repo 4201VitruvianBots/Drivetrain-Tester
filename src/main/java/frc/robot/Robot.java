@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
@@ -93,11 +92,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
-        if (m_robotContainer.getRobotDrive().getCurrentCommand() == m_robotContainer.getRobotDrive().getDefaultCommand()
-                && m_latch) {
-            SmartDashboard.putNumber("Auto Time", Timer.getFPGATimestamp() - m_autoStartTime);
-            m_latch = false;
-        }
     }
 
     @Override
