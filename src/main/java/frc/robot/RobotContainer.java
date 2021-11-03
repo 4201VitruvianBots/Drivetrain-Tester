@@ -34,13 +34,13 @@ public class RobotContainer {
     private final PowerDistributionPanel pdp = new PowerDistributionPanel();
     private final DriveTrain m_driveTrain = new DriveTrain(pdp);
 
-    static JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
-    static JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
-    static JoystickWrapper xBoxController = new JoystickWrapper(Constants.xBoxController);
-    public Button[] leftButtons = new Button[2];
-    public Button[] rightButtons = new Button[2];
-    public Button[] xBoxButtons = new Button[10];
-    public Button[] xBoxPOVButtons = new Button[8];
+    static final JoystickWrapper leftJoystick = new JoystickWrapper(Constants.leftJoystick);
+    static final JoystickWrapper rightJoystick = new JoystickWrapper(Constants.rightJoystick);
+    static final JoystickWrapper xBoxController = new JoystickWrapper(Constants.xBoxController);
+    public final Button[] leftButtons = new Button[2];
+    public final Button[] rightButtons = new Button[2];
+    public final Button[] xBoxButtons = new Button[10];
+    public final Button[] xBoxPOVButtons = new Button[8];
     public Button xBoxLeftTrigger, xBoxRightTrigger;
 
     static JoystickWrapper testController = new JoystickWrapper(4);
@@ -96,7 +96,6 @@ public class RobotContainer {
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
-     * @return the command to run in autonomous
      */
 
     public void disabledInit() {

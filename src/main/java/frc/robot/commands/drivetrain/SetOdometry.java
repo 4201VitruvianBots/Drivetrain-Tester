@@ -7,9 +7,7 @@
 
 package frc.robot.commands.drivetrain;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
@@ -19,11 +17,10 @@ import frc.robot.subsystems.DriveTrain;
 public class SetOdometry extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DriveTrain m_driveTrain;
-  private Pose2d m_pose2d;
+  private final Pose2d m_pose2d;
   /**
    * Creates a new ExampleCommand.
    *
-   * @param subsystem The subsystem used by this command.
    */
 
   public SetOdometry(DriveTrain driveTrain, Pose2d pose2d) {

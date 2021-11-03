@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class JoystickWrapper extends Joystick {
 
-    private boolean[] invertedAxis;
-    private double[] deadbands;
+    private final boolean[] invertedAxis;
+    private final double[] deadbands;
 
     public JoystickWrapper(int port) {
         super(port);

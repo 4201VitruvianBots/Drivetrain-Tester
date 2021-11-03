@@ -221,10 +221,9 @@ public final class SmartDashboardTab {
      * Put a boolean in the table.
      * @param key the key to be assigned to
      * @param value the value that will be assigned
-     * @return False if the table key already exists with a different type
      */
-    public static boolean putBoolean(String tabName, String key, boolean value) {
-        return getEntry(tabName, key).setBoolean(value);
+    public static void putBoolean(String tabName, String key, boolean value) {
+        getEntry(tabName, key).setBoolean(value);
     }
 
     /**
@@ -253,10 +252,9 @@ public final class SmartDashboardTab {
      * Put a number in the table.
      * @param key the key to be assigned to
      * @param value the value that will be assigned
-     * @return False if the table key already exists with a different type
      */
-    public static boolean putNumber(String tabName, String key, double value) {
-        return getEntry(tabName, key).setDouble(value);
+    public static void putNumber(String tabName, String key, double value) {
+        getEntry(tabName, key).setDouble(value);
     }
 
     /**

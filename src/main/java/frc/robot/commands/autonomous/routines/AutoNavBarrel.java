@@ -1,15 +1,7 @@
 package frc.robot.commands.autonomous.routines;
 
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Transform2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -17,17 +9,12 @@ import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstr
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.RobotContainer;
 import frc.robot.commands.drivetrain.SetDriveNeutralMode;
 import frc.robot.commands.drivetrain.SetOdometry;
-import frc.robot.constants.Constants;
 import frc.robot.subsystems.*;
 import frc.vitruvianlib.utils.TrajectoryUtils;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class AutoNavBarrel extends SequentialCommandGroup {
@@ -68,38 +55,9 @@ public class AutoNavBarrel extends SequentialCommandGroup {
         addCommands(new SetOdometry(driveTrain, startPosition),
                 new SetDriveNeutralMode(driveTrain, 0));
 
-        // double[] startVelocities = {
-        //         0,
-        //         2 * configA.getMaxVelocity()/3,
-        //         2 * configA.getMaxVelocity()/3,
-        //         2 * configA.getMaxVelocity()/3,
-        //         2 * configA.getMaxVelocity()/3,
-        //         2 * configA.getMaxVelocity()/3,
-        //         2 * configA.getMaxVelocity()/3,
-        //         3 * configA.getMaxVelocity()/4,
-        //         3 * configA.getMaxVelocity()/4,
-        //         3 * configA.getMaxVelocity()/4,
-        //         3 * configA.getMaxVelocity()/4,
-        //         3 * configA.getMaxVelocity()/4};
-        // double[] endVelocities = {
-        //         2 * configA.getMaxVelocity()/3,
-        //         2 * configA.getMaxVelocity()/3,
-        //         2 * configA.getMaxVelocity()/3,
-        //         2 * configA.getMaxVelocity()/3,
-        //         2 * configA.getMaxVelocity()/3,
-        //         2 * configA.getMaxVelocity()/3,
-        //         3 * configA.getMaxVelocity()/4,
-        //         3 * configA.getMaxVelocity()/4,
-        //         3 * configA.getMaxVelocity()/4,
-        //         3 * configA.getMaxVelocity()/4,
-        //         3 * configA.getMaxVelocity()/4,
-        //         2 * configA.getMaxVelocity()/3};
-
         for(int i = 0; i < waypoints.length - 1; i++) {
-                // configA.setStartVelocity(startVelocities[i]);
-                // configA.setEndVelocity(endVelocities[i]);
-                
-                Trajectory trajectory = TrajectoryGenerator.generateTrajectory(waypoints[i],
+
+            Trajectory trajectory = TrajectoryGenerator.generateTrajectory(waypoints[i],
                 List.of(),
                 waypoints[i + 1],
                 configA);

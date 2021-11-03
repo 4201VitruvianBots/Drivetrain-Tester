@@ -9,12 +9,10 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboardTab;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.subsystems.DriveTrain;
 
-import java.util.ArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -26,27 +24,23 @@ import java.util.function.Supplier;
     May revisit the need to specify our own end conditions in the future.
  */
 public class VitruvianRamseteCommand extends RamseteCommand {
-    private Trajectory m_trajectory;
-    private DriveTrain m_driveTrain;
-    private Supplier<Pose2d> m_pose;
-    private Pose2d m_finalPose;
-    private double autoDuration, autoStartTime;
+    private final Trajectory m_trajectory;
+    private final DriveTrain m_driveTrain;
 
     public VitruvianRamseteCommand(Trajectory trajectory, Supplier<Pose2d> pose, RamseteController controller, SimpleMotorFeedforward feedforward, DifferentialDriveKinematics kinematics, Supplier<DifferentialDriveWheelSpeeds> wheelSpeeds, PIDController leftController, PIDController rightController, BiConsumer<Double, Double> outputVolts, DriveTrain driveTrain) {
         super(trajectory, pose, controller, feedforward, kinematics, wheelSpeeds, leftController, rightController, outputVolts, driveTrain);
         m_driveTrain = driveTrain;
-        m_pose = pose;
         m_trajectory = trajectory;
 
         int trajectorySize = m_trajectory.getStates().size() - 1;
-        m_finalPose = m_trajectory.getStates().get(trajectorySize).poseMeters;
+        Pose2d m_finalPose = m_trajectory.getStates().get(trajectorySize).poseMeters;
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        autoStartTime = Timer.getFPGATimestamp();
-        autoDuration = m_trajectory.getTotalTimeSeconds() + 1;
+        double autoStartTime = Timer.getFPGATimestamp();
+        double autoDuration = m_trajectory.getTotalTimeSeconds() + 1;
     }
 
     @Override
@@ -54,19 +48,6 @@ public class VitruvianRamseteCommand extends RamseteCommand {
         super.execute();
         SmartDashboardTab.putNumber("DriveTrain", "Velocity", Units.metersToFeet(m_driveTrain.getDriveTrainKinematics().toChassisSpeeds(m_driveTrain.getSpeeds()).vxMetersPerSecond));
     }
-
-//    @Override
-//    public boolean isFinished() {
-//        double deltaX = Units.metersToFeet(Math.abs(m_pose.get().getTranslation().getX() - m_finalPose.getX()));
-//        double deltaY = Units.metersToFeet(Math.abs(m_pose.get().getTranslation().getY() - m_finalPose.getY()));
-//        double deltaRot = Math.abs(m_pose.get().getRotation().getDegrees() - m_finalPose.getRotation().getDegrees());
-//        boolean isFinished = ((deltaX < .25) && (deltaY < .25) && (deltaRot < 4));
-//        SmartDashboardTab.putNumber("DriveTrain", "Ramsete Delta X", deltaX);
-//        SmartDashboardTab.putNumber("DriveTrain", "Ramsete Delta Y", deltaY);
-//        SmartDashboardTab.putNumber("DriveTrain", "Ramsete Delta Rot", deltaRot);
-//        SmartDashboardTab.putBoolean("DriveTrain", "Ramsete Command Finished", isFinished);
-//        return isFinished;
-//    }
 
     @Override
     public void end(boolean interrupted) {

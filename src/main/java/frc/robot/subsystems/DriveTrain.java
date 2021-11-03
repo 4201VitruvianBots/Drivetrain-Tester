@@ -49,32 +49,32 @@ public class DriveTrain extends SubsystemBase {
 
     private final double kS = DriveConstants.ksVolts;
     private final double kV = DriveConstants.kvVoltSecondsPerMeter;
-    private final double kA = DriveConstants.kaVoltSecondsSquaredPerMeter;;
+    private final double kA = DriveConstants.kaVoltSecondsSquaredPerMeter;
 
-    public double kP = 1.94;// Constants.DriveConstants.inSlowGear ? 1.89 : 2.74; //1.33
-    public double kI = 0;
-    public double kD = 0;
+    public final double kP = 1.94;// Constants.DriveConstants.inSlowGear ? 1.89 : 2.74; //1.33
+    public final double kI = 0;
+    public final double kD = 0;
     public int controlMode = 0;
 
-    DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(21.5));
-    DifferentialDriveOdometry odometry;
+    final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(21.5));
+    final DifferentialDriveOdometry odometry;
     DifferentialDrivePoseEstimator m_poseEstimator;
-    SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
+    final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
 
-    PIDController leftPIDController = new PIDController(kP, kI, kD);
-    PIDController rightPIDController = new PIDController(kP, kI, kD);
+    final PIDController leftPIDController = new PIDController(kP, kI, kD);
+    final PIDController rightPIDController = new PIDController(kP, kI, kD);
 
-    PowerDistributionPanel m_pdp;
+    final PowerDistributionPanel m_pdp;
 
     private final TalonFX[] driveMotors = { new TalonFX(Constants.leftFrontDriveMotor),
             new TalonFX(Constants.leftRearDriveMotor), new TalonFX(Constants.rightFrontDriveMotor),
             new TalonFX(Constants.rightRearDriveMotor) };
     double m_leftOutput, m_rightOutput;
 
-    private final boolean[] brakeMode = { true, false, true, false };
+    private final boolean[] brakeMode = {};
 
     // Set up shifters
-    DoubleSolenoid driveTrainShifters = new DoubleSolenoid(Constants.pcmOne, Constants.driveTrainShiftersForward,
+    final DoubleSolenoid driveTrainShifters = new DoubleSolenoid(Constants.pcmOne, Constants.driveTrainShiftersForward,
             Constants.driveTrainShiftersReverse);
     private boolean m_driveShifterState;
 
@@ -83,20 +83,6 @@ public class DriveTrain extends SubsystemBase {
     private final DoubleSolenoid solenoid = new DoubleSolenoid(0, 0, 1);
 
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
-
-    // // The left-side drive encoder
-    // private final Encoder m_leftEncoder =
-    // new Encoder(Constants.DriveConstants.kLeftEncoderPorts[0],
-    // Constants.DriveConstants.kLeftEncoderPorts[1],
-    // Constants.DriveConstants.kLeftEncoderReversed);
-    //
-    // // The right-side drive encoder
-    // private final Encoder m_rightEncoder =
-    // new Encoder(Constants.DriveConstants.kRightEncoderPorts[0],
-    // Constants.DriveConstants.kRightEncoderPorts[1],
-    // Constants.DriveConstants.kRightEncoderReversed);
-    // private EncoderSim m_leftEncoderSim;
-    // private EncoderSim m_rightEncoderSim;
 
     // Temporary until CTRE supports FalconFX in WPILib Sim
     private final TalonSRX[] simMotors = new TalonSRX[4];
@@ -113,12 +99,6 @@ public class DriveTrain extends SubsystemBase {
         m_pdp = pdp;
         // initShuffleboardValues();
         odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
-        // poseEstimator = new DifferentialDrivePoseEstimator(
-        // m_gyro.getRotation2d(),
-        // new Pose2d(),
-        // VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5), 0.01, 0.01),
-        // VecBuilder.fill(0.02, 0.02, Units.degreesToRadians(1)),
-        // VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30)));
 
         if (RobotBase.isSimulation()) { // If our robot is simulated
             for (int i = 0; i < 4; i++)
@@ -127,25 +107,11 @@ public class DriveTrain extends SubsystemBase {
             simMotors[0].setSensorPhase(true);
             simMotors[2].setSensorPhase(false);
 
-            // m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulseSim);
-            // m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulseSim);
-
             m_drivetrainSimulator = new DifferentialDrivetrainSim(DriveConstants.kDrivetrainPlant,
                     DriveConstants.kDriveGearbox, DriveConstants.kDriveGearingHigh, DriveConstants.kTrackwidthMeters,
                     Constants.DriveConstants.kWheelDiameterMeters / 2.0, null);// VecBuilder.fill(0, 0, 0.0001, 0.1,
                                                                                // 0.1, 0.005, 0.005));
 
-            // m_drivetrainSimulator = new DifferentialDrivetrainSim(
-            // DriveConstants.kDriveGearbox,
-            // DriveConstants.kDriveGearingHigh,
-            // 8.28, // Moment of inertia. Need to get it from the CAD model
-            // 70.44, // 140 lbs
-            // DriveConstants.kTrackwidthMeters,
-            // Constants.DriveConstants.kWheelDiameterMeters / 2.0,
-            // VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
-
-            // m_leftEncoderSim = new EncoderSim(m_leftEncoder);
-            // m_rightEncoderSim = new EncoderSim(m_rightEncoder);
             m_gyroAngleSim = new ADXRS450_GyroSim(m_gyro);
         }
         SmartDashboard.putData("DT Subsystem", this);
@@ -154,12 +120,6 @@ public class DriveTrain extends SubsystemBase {
     public void configureCtreMotors(BaseTalon... motors) {
         for (int i = 0; i < motors.length; i++) {
             motors[i].configFactoryDefault();
-            // motor.configVoltageCompSaturation(12);
-            // motor.enableVoltageCompensation(true);
-            // motor.configGetSupplyCurrentLimit(30);
-            // motor.configPeakCurrentLimit(40);
-            // motor.configPeakCurrentDuration(1000);
-            // motor.enableCurrentLimit(true);
 
             motors[i].configOpenloopRamp(0.1);
             motors[i].configClosedloopRamp(0.1);
@@ -231,12 +191,6 @@ public class DriveTrain extends SubsystemBase {
         else {
             return (simMotors[sensorIndex].getSelectedSensorPosition() / 4096.0) * Math.PI
                     * Units.feetToMeters(wheelDiameter);
-            // if(sensorIndex == 0)
-            // return m_leftEncoder.getDistance();
-            // else if(sensorIndex == 2)
-            // return m_rightEncoder.getDistance();
-            // else
-            // return 0;
         }
     }
 
@@ -249,8 +203,6 @@ public class DriveTrain extends SubsystemBase {
         driveMotors[0].setSelectedSensorPosition(0);
         driveMotors[2].setSelectedSensorPosition(0);
         if (RobotBase.isSimulation()) {
-            // m_leftEncoder.reset();
-            // m_rightEncoder.reset();;
             simMotors[0].getSimCollection().addQuadraturePosition(0);
             simMotors[2].getSimCollection().addQuadraturePosition(0);
         }
@@ -351,15 +303,6 @@ public class DriveTrain extends SubsystemBase {
 
     public void setDriveShifterStatus(boolean state) {
         m_driveShifterState = state;
-        // double gearRatio = state ? Constants.DriveConstants.kDriveGearingHigh :
-        // Constants.DriveConstants.kDriveGearingLow ;
-        // double kEncoderDistancePerPulse = state ?
-        // Constants.DriveConstants.kEncoderDistancePerPulseHigh :
-        // Constants.DriveConstants.kEncoderDistancePerPulseLow;
-
-        // m_drivetrainSimulator.setCurrentGearing(gearRatio);
-        // m_leftEncoder.setDistancePerPulse(kEncoderDistancePerPulse);
-        // m_rightEncoder.setDistancePerPulse(kEncoderDistancePerPulse);
 
         driveTrainShifters.set(state ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse);
     }
@@ -376,20 +319,13 @@ public class DriveTrain extends SubsystemBase {
                     * Units.feetToMeters(wheelDiameter);
             rightMetersPerSecond = (driveMotors[2].getSelectedSensorVelocity() * 10.0 / 2048.0) * gearRatio * Math.PI
                     * Units.feetToMeters(wheelDiameter);
-        } else {
-            // This is apparently causing issues to the sim where the robot does not fully
-            // reach the endpoint. My assumption
-            // at the moment is that we need to re-characterize the drivetrain to get new
-            // values. I believe David noticed this
-            // issue on the actual robot when he had it. By removing this, the robot sim
-            // will follow the trajectory perfectly.
-            // leftMetersPerSecond = m_leftEncoderSim.getRate();
-            // rightMetersPerSecond = m_rightEncoderSim.getRate();
-            // leftMetersPerSecond = (simMotors[0].getSelectedSensorVelocity() * 10.0 /
-            // 4096.0) * Math.PI * Units.feetToMeters(wheelDiameter);
-            // rightMetersPerSecond = (simMotors[2].getSelectedSensorVelocity() * 10.0 /
-            // 4096.0) * Math.PI * Units.feetToMeters(wheelDiameter);
-        }
+        }  // This is apparently causing issues to the sim where the robot does not fully
+        // reach the endpoint. My assumption
+        // at the moment is that we need to re-characterize the drivetrain to get new
+        // values. I believe David noticed this
+        // issue on the actual robot when he had it. By removing this, the robot sim
+        // will follow the trajectory perfectly.
+
 
         return new DifferentialDriveWheelSpeeds(leftMetersPerSecond, rightMetersPerSecond);
     }
@@ -406,8 +342,6 @@ public class DriveTrain extends SubsystemBase {
                     * Units.feetToMeters(wheelDiameter);
             return (leftMeters + rightMeters) / 2.0;
         } else {
-            // leftMeters = m_leftEncoder.getDistance();
-            // rightMeters = m_rightEncoder.getDistance();
             leftMeters = (simMotors[0].getSelectedSensorPosition() * 10.0 / 4096) * Math.PI
                     * Units.feetToMeters(wheelDiameter);
             rightMeters = (simMotors[2].getSelectedSensorPosition() * 10.0 / 4096) * Math.PI
@@ -445,26 +379,6 @@ public class DriveTrain extends SubsystemBase {
         odometry.resetPosition(pose, rotation);
         resetEncoderCounts();
     }
-
-    // private void initShuffleboardValues() {
-    // // Need to verify that this works again
-    // Shuffleboard.getTab("Drive Train").addNumber("Left Encoder", () ->
-    // getEncoderCount(0));
-    // Shuffleboard.getTab("Drive Train").addNumber("Right Encoder", () ->
-    // getEncoderCount(2));
-    // Shuffleboard.getTab("Drive Train").addNumber("xCoordinate",
-    // () -> Units.metersToFeet(getRobotPose().getTranslation().getX()));
-    // Shuffleboard.getTab("Drive Train").addNumber("yCoordinate",
-    // () -> Units.metersToFeet(getRobotPose().getTranslation().getY()));
-    // Shuffleboard.getTab("Drive Train").addNumber("Angle", () ->
-    // getRobotPose().getRotation().getDegrees());
-    // Shuffleboard.getTab("Drive Train").addNumber("leftSpeed",
-    // () -> Units.metersToFeet(getSpeeds().leftMetersPerSecond));
-    // Shuffleboard.getTab("Drive Train").addNumber("rightSpeed",
-    // () -> Units.metersToFeet(getSpeeds().rightMetersPerSecond));
-
-    // Shuffleboard.getTab("Turret").addNumber("Robot Angle", navX::getAngle);
-    // }
 
     private void updateSmartDashboard() {
         if (RobotBase.isReal()) {
@@ -510,10 +424,6 @@ public class DriveTrain extends SubsystemBase {
         // Also apply vision measurements. We use 0.3 seconds in the past as an example
         // -- on
         // a real robot, this must be calculated based either on latency or timestamps.
-        // m_poseEstimator.addVisionMeasurement(
-        // ExampleGlobalMeasurementSensor.getEstimatedGlobalPose(
-        // m_poseEstimator.getEstimatedPosition()),
-        // Timer.getFPGATimestamp() - 0.3);
 
         updateSmartDashboard();
     }
@@ -569,18 +479,10 @@ public class DriveTrain extends SubsystemBase {
         SmartDashboard.putNumber("R Output", m_rightOutput);
         SmartDashboard.putNumber("L Encoder Distance", getWheelDistanceMeters(0));
         SmartDashboard.putNumber("R Encoder Distance", getWheelDistanceMeters(2));
-        // SmartDashboard.putNumber("L Encoder Count", m_leftEncoder.get());
-        // SmartDashboard.putNumber("R Encoder Count", m_rightEncoder.get());
-        // SmartDashboard.putNumber("L Encoder Rate", m_leftEncoder.getRate());
-        // SmartDashboard.putNumber("R Encoder Rate", m_rightEncoder.getRate());
 
         SmartDashboard.putBoolean("High Gear", getDriveShifterStatus());
         SmartDashboard.putBoolean("CTRE Feed Enabled", Unmanaged.getEnableState());
 
-        // if(m_leftEncoder.getRate() > maxVel) {
-        // SmartDashboard.putNumber("Max Vel", m_leftEncoder.get());
-        // maxVel = m_leftEncoder.getRate();
-        // }
     }
 
     int distanceMetersToTalonSrxUnits(double meters) {

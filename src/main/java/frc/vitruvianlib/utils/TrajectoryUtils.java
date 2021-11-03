@@ -1,21 +1,17 @@
 package frc.vitruvianlib.utils;
 
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.commands.autonomous.VitruvianRamseteCommand;
 import frc.robot.subsystems.DriveTrain;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TrajectoryUtils {
 
@@ -52,7 +48,7 @@ public class TrajectoryUtils {
 
     public static VitruvianRamseteCommand generateRamseteCommand(DriveTrain driveTrain, Trajectory trajectory) {
 
-        VitruvianRamseteCommand ramseteCommand = new VitruvianRamseteCommand(
+        return new VitruvianRamseteCommand(
                 trajectory,
                 driveTrain::getRobotPose,
                 new RamseteController(),
@@ -64,6 +60,5 @@ public class TrajectoryUtils {
                 driveTrain::setVoltageOutput,
                 driveTrain
         );
-        return ramseteCommand;
     }
 }

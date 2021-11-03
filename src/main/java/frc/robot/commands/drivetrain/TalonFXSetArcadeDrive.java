@@ -23,7 +23,6 @@ public class TalonFXSetArcadeDrive extends CommandBase {
     /**
      * Creates a new ExampleCommand.
      *
-     * @param subsystem The subsystem used by this command.
      */
     public TalonFXSetArcadeDrive(DriveTrain driveTrain, DoubleSupplier throttle, DoubleSupplier turn) {
         m_driveTrain = driveTrain;
